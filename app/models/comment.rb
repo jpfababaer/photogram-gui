@@ -13,6 +13,7 @@
 class Comment < ApplicationRecord
   validates(:commenter, { :presence => true })
 
+  #9 Takes in a Comment instance -> uses its "author_id" attribute to query the "User" database to match my_author_id == id (PK of User instances) then return the User instance so we know who made the comment. SEARCH routes.rb
   def commenter
     my_author_id = self.author_id
 

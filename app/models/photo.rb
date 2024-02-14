@@ -15,46 +15,39 @@
 class Photo < ApplicationRecord
   validates(:poster, { :presence => true })
 
+  #4 Takes in a Photo instance -> and uses the ownwer_id to return the Instance of a User who OWNS the post. 
   def poster
-    my_owner_id = self.owner_id
-
-    matching_users = User.where({ :id => my_owner_id })
+    matching_users = User.where({ :id => self.owner_id })
 
     the_user = matching_users.at(0)
 
     return the_user
   end
 
+  #5 Takes in a Photo instance -> uses the Photo instance's id (PK) and queries the "Comment" database of ALL Comment instances that HAS the attribute "photo_id" == id (PK of Photo Instance) then returns the ARR of matching instances.
   def comments
-    my_id = self.id
 
     matching_comments = Comment.where({ :photo_id => self.id })
 
     return matching_comments
   end
 
+  #6 Takes in a Photo instance -> uses the Photo instance's id (PK) and queries the "Like" database of all Like instances that HAS the attribute "photo_id" == id (PK of Photo Instance) then returns the ARR of matching instances.
   def likes
-    my_id = self.id
-
     matching_likes = Like.where({ :photo_id => self.id })
 
     return matching_likes
   end
 
+  #7 Takes in a Photo instance -> uses the Photo instance's id (PK, via "likes" method). "likes" returns the ARR of matching instances for whoever likes the photo and plucks plucks the fan_id attribute = determines the User instances who liked the Photo instance. 
   def fans
-    my_likes = self.likes
-    
-    array_of_user_ids = Array.new
-
-    my_likes.each do |a_like|
-      array_of_user_ids.push(a_like.fan_id)
-    end
-
-    matching_users = User.where({ :id => array_of_user_ids })
+    user_ids = self.likes.pluck(:fan_id) #Pluck selects SPECIFIC attributes defined in the parameter and returns its values in an Array
+    matching_users = User.where({ :id => user_ids }) #User_ids is an Array of user_ids that liked the Photo instance. When placed inside of .where(), it iterates through all elements to create a new ARR. 
 
     return matching_users
   end
 
+  #8 SEARCH comment.rb
   def fan_list
     my_fans = self.fans
 

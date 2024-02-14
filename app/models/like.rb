@@ -10,12 +10,13 @@
 #
 
 class Like < ApplicationRecord
-  validates(:fan, { :presence => true })
-  validates(:photo, { :presence => true })
+  validates(:fan, { :presence => true }) #Fan column must be inputted
+  validates(:photo, { :presence => true }) #Photo column must be inputted
   validates(:photo_id, { 
-    :uniqueness => { :scope => [:fan_id] }
+    :uniqueness => { :scope => [:fan_id] } #The photo_id column must have a unique fan_id
   })
 
+  #1 Self = a fan (i.e. follower). This returns an Instance of a User (who is a fan).
   def fan
     my_fan_id = self.fan_id
 
@@ -26,6 +27,7 @@ class Like < ApplicationRecord
     return the_user
   end
 
+  #2 Self = a specific photo. This returns a Instance of a photo. SEARCH follow_request.rb
   def photo
     my_photo_id = self.photo_id
 

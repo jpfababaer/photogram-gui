@@ -17,6 +17,7 @@ class FollowRequest < ApplicationRecord
     :uniqueness => { :scope => [:sender_id] }
   })
 
+  #3 Self = sender_id of the User sending the follow. This returns the Instance of the sender.
   def sender
     my_sender_id = self.sender_id
 
@@ -27,6 +28,7 @@ class FollowRequest < ApplicationRecord
     return the_user
   end
 
+  #3 Self = recipient_id of the User receiving the follow. This returns the Instance of the recipient. SEARCH photo.rb
   def recipient
     my_recipient_id = self.recipient_id
 
