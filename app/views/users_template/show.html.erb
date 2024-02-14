@@ -2,16 +2,13 @@
 
 <dl>
   <dt>ID</dt>
-  <dd><dd>
-
-  <dt></dt>
-  <dd><dd>
+  <dd><%= @the_user.id %><dd>
 
   <dt>Edit user</dt>
   <dd>
-    <form action="" method="post">
-    <label for="user_field">Username</label>
-    <input id="user_field" name="user_info" type="text">
+    <form action="/update_user/<%= @the_user.id %>" method="post">
+    <label for="username_field">Username</label>
+    <input id="username_field" name="username_info" type="text" value="<%= @the_user.username %>">
 
     <button>
     Update user
