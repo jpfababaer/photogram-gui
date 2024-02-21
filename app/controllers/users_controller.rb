@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def update
     user_id = params.fetch("path_id")
     
-    matching_user = User.where({ id: user_id})
+    matching_user = User.where({ username: user_id})
     @the_user = matching_user.at(0)
 
     @the_user.username = params.fetch("username_info")
